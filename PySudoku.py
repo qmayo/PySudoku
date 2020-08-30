@@ -53,16 +53,14 @@ class Sudoku:
     def solve(self):
         # Checks if cells are all solved
         if self.findValidCell() == -1:
-            print(self.board)
+            self.printboard()
             return True
 
-        # Finds first cell to fill
         row, col = self.findValidCell()
 
         for i in range(1, 10):
             if self.possible(row, col, i):
                 self.board[row][col] = i
-                # Updates values to find new cell to fill
 
                 if self.solve():
                     return True
@@ -71,10 +69,34 @@ class Sudoku:
 
         return False
 
+    def printboard(self):          
+        print('===================')
+        for i in range(9):
 
-# Get cell values and calls solve function
+            if i in [3,6]:
+                print('===================')
+                print('|',end='')
+            else:
+                print('|', end="")
+
+            for j in range(9):
+
+                if i == 8 and j == 8:
+                    print(str(self.board[i][j])+'|\n'+'===================')
+
+                elif j in [2,5]:
+                    print(str(self.board[i][j])+'|',end="")
+
+                elif j == 8:
+                    print(str(self.board[i][j])+'|')
+
+                else:
+                    print(str(self.board[i][j])+' ',end="")
+
+# Get cell values and solve
 get_cells = input("Enter cell values seperated by 1 space. Enter 0 for empty cells: ")
-b = Sudoku([[0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0],[0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0],[0, 0, 0, 0, 0, 0, 0, 0, 0]], get_cells)
-b.newboard()
-b.solve()
+
+puzzle = Sudoku([[0 for i in range(9)] for j in range(9)], get_cells)
+puzzle.newboard()
+puzzle.solve()
 
